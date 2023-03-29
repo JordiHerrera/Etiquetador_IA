@@ -34,7 +34,13 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        self.X = np.random.rand(100, 5)
+        z = np.shape(X)
+        a=0
+        self.X = np.random.rand(z[0]*z[1], 3)
+        for i in range(z[0]):
+            for j in range(z[1]):
+                self.X[a] = X[i][j]
+                a = a+1
 
     def _init_options(self, options=None):
         """
