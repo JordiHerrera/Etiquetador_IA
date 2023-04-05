@@ -199,6 +199,18 @@ def find_bestK(self, max_K):
     pass
 
 
+def euclidian_distance_3d(A, B):
+    
+    x = np.square(B[0] - A[0])
+    y = np.square(B[1] - A[1])
+    z = np.square(B[2] - A[2])
+    
+    distance = np.sqrt(x + y + z)
+    
+    return distance
+    
+pass
+
 def distance(X, C):
     """
     Calculates the distance between each pixel and each centroid
@@ -228,8 +240,9 @@ def distance(X, C):
     retorn = np.zeros((N, K))
     for current_n in range(N):
         for current_k in range(K):
-            a = 0
+            retorn[current_n, current_k] = euclidian_distance_3d(X[current_n], C[current_k])
 
+    return retorn
 pass
 
 def get_colors(centroids):
