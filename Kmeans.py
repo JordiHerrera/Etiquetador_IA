@@ -35,12 +35,16 @@ class KMeans:
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
         z = np.shape(X)
-        a=0
-        self.X = np.random.rand(z[0]*z[1], 3)
-        for i in range(z[0]):
-            for j in range(z[1]):
-                self.X[a] = X[i][j]
-                a = a+1
+        F = z[0]
+        C = z[1]
+        N = F*C         # Comprobar floats
+        if len(z) > 2:      
+            self.X = np.reshape(X, (N, 3))
+        else:
+            self.X = X
+            
+        pass
+                    
 
     def _init_options(self, options=None):
         """
@@ -69,21 +73,61 @@ class KMeans:
         #############################################################
 
 
-def _init_centroids(self):
-    """
-    Initialization of centroids
-    """
-
-    #######################################################
-    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-    ##  AND CHANGE FOR YOUR OWN CODE
-    #######################################################
-    if self.options['km_init'].lower() == 'first':
-        self.centroids = np.random.rand(self.K, self.X.shape[1])
-        self.old_centroids = np.random.rand(self.K, self.X.shape[1])
-    else:
-        self.centroids = np.random.rand(self.K, self.X.shape[1])
-        self.old_centroids = np.random.rand(self.K, self.X.shape[1])
+    def _init_centroids(self):
+        """
+        Initialization of centroids
+        """
+    
+        #######################################################
+        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
+        ##  AND CHANGE FOR YOUR OWN CODE
+        #######################################################
+        if hasattr(self, 'centroids'):
+            self.old_centroids = self.centroids
+        else:
+            self.old_centroids = [0]
+            
+        if self.options['km_init'].lower() == 'first':
+            used = []
+            centroids = np.zeros((self.K, self.X.shape[1]))
+            for i in range(self.K):
+                trobat = False
+                a = 0
+                while trobat == False:
+                    chosen = self.X[a]
+                    if not any(np.array_equal(chosen, x) for x in used):
+                            centroids[i] = chosen
+                            used.append(chosen)
+                            trobat = True
+                    else:
+                        a = a + 1
+                        
+            self.centroids = centroids
+            
+            if hasattr(self, 'centroids'):
+                self.old_centroids = self.centroids
+            else:
+                self.old_centroids = [0]
+                
+            
+        elif self.options['km_init'].lower() == 'random':
+            used = []
+            centroids = np.zeros((self.K, 3))
+            for i in range(self.K):
+                trobat = False
+                while trobat == False:
+                    chosen = np.random.rand()
+                    if not any(np.array_equal(chosen, x) for x in used):
+                            centroids[i] = chosen
+                            used.append(chosen)
+                            trobat = True
+                        
+            self.centroids = centroids
+            
+            
+        else:
+            self.centroids = np.random.rand(self.K, self.X.shape[1])
+            self.old_centroids = np.random.rand(self.K, self.X.shape[1])
 
 
 def get_labels(self):
@@ -94,7 +138,8 @@ def get_labels(self):
     ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
     ##  AND CHANGE FOR YOUR OWN CODE
     #######################################################
-    self.labels = np.random.randint(self.K, size=self.X.shape[0])
+    
+    
 
 
 def get_centroids(self):
@@ -170,8 +215,22 @@ def distance(X, C):
     ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
     ##  AND CHANGE FOR YOUR OWN CODE
     #########################################################
-    return np.random.rand(X.shape[0], C.shape[0])
+    
+    # K = Num de centroides, N = columnes*files
+    #NO ACABAT, NO FUNCIONA
+    
+    X_shape = np.shape(X)
+    C_shape = np.shape(C)
+    
+    N = X_shape[0]
+    K = C_shape[0]
+    
+    retorn = np.zeros((N, K))
+    for current_n in range(N):
+        for current_k in range(K):
+            a = 0
 
+pass
 
 def get_colors(centroids):
     """
