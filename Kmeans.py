@@ -130,17 +130,26 @@ class KMeans:
             self.old_centroids = np.random.rand(self.K, self.X.shape[1])
 
 
-def get_labels(self):
-    """        Calculates the closest centroid of all points in X
-    and assigns each point to the closest centroid
-    """
-    #######################################################
-    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-    ##  AND CHANGE FOR YOUR OWN CODE
-    #######################################################
-    
-    
+    def get_labels(self):
+        """        Calculates the closest centroid of all points in X
+        and assigns each point to the closest centroid
+        """
+        #######################################################
+        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
+        ##  AND CHANGE FOR YOUR OWN CODE
+        #######################################################
+        z = len(self.X)
+        self.labels = np.zeros((z))
+        
+        for current_n in range(z):
+            minim_value = 999
+            for current_k in range(self.K):
+                new_distance = euclidian_distance_3d(self.X[current_n], self.centroids[current_k])
+                if new_distance < minim_value:
+                    self.labels[current_n] = current_k
+                    minim_value = new_distance
 
+    pass
 
 def get_centroids(self):
     """
