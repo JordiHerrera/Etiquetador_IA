@@ -3,6 +3,7 @@ __group__ = 'DM.12'
 
 import numpy as np
 import utils
+import copy
 
 
 class KMeans:
@@ -82,10 +83,7 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        if hasattr(self, 'centroids'):
-            self.old_centroids = self.centroids
-        else:
-            self.old_centroids = [0]
+
             
         if self.options['km_init'].lower() == 'first':
             used = []
@@ -148,17 +146,29 @@ class KMeans:
                 if new_distance < minim_value:
                     self.labels[current_n] = current_k
                     minim_value = new_distance
-
+                    
     pass
 
-def get_centroids(self):
-    """
-    Calculates coordinates of centroids based on the coordinates of all the points assigned to the centroid
-    """
-    #######################################################
-    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-    ##  AND CHANGE FOR YOUR OWN CODE
-    #######################################################
+    def get_centroids(self): 
+        """
+        Calculates coordinates of centroids based on the coordinates of all the points assigned to the centroid
+        """
+        #######################################################
+        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
+        ##  AND CHANGE FOR YOUR OWN CODE
+        #######################################################
+        
+        self.old_centroids = copy.deepcopy(self.centroids)
+        
+        for current_centroid in range(len(self.centroids)):
+            current_list = []
+            for current_point in range(len(self.labels)):
+                if self.labels[current_point] == current_centroid:
+                    current_list.append(self.X[current_point])
+            new_cent = np.mean(current_list, axis = 0)
+            self.centroids[current_centroid] = new_cent
+            
+    
     pass
 
 
