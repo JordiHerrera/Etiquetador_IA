@@ -38,14 +38,13 @@ class KMeans:
         z = np.shape(X)
         F = z[0]
         C = z[1]
-        N = F*C         # Comprobar floats
-        if len(z) > 2:      
+        N = F * C  # Comprobar floats
+        if len(z) > 2:
             self.X = np.reshape(X, (N, 3))
         else:
             self.X = X
-            
+
         pass
-                    
 
     def _init_options(self, options=None):
         """
@@ -73,18 +72,16 @@ class KMeans:
         ##  THIS FUNCTION CAN BE MODIFIED FROM THIS POINT, if needed
         #############################################################
 
-
     def _init_centroids(self):
         """
         Initialization of centroids
         """
-    
+
         #######################################################
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
 
-            
         if self.options['km_init'].lower() == 'first':
             used = []
             centroids = np.zeros((self.K, self.X.shape[1]))
@@ -94,20 +91,20 @@ class KMeans:
                 while trobat == False:
                     chosen = self.X[a]
                     if not any(np.array_equal(chosen, x) for x in used):
-                            centroids[i] = chosen
-                            used.append(chosen)
-                            trobat = True
+                        centroids[i] = chosen
+                        used.append(chosen)
+                        trobat = True
                     else:
                         a = a + 1
-                        
+
             self.centroids = centroids
-            
+
             if hasattr(self, 'centroids'):
                 self.old_centroids = self.centroids
             else:
                 self.old_centroids = [0]
-                
-            
+
+
         elif self.options['km_init'].lower() == 'random':
             used = []
             centroids = np.zeros((self.K, 3))
@@ -116,17 +113,16 @@ class KMeans:
                 while trobat == False:
                     chosen = np.random.rand()
                     if not any(np.array_equal(chosen, x) for x in used):
-                            centroids[i] = chosen
-                            used.append(chosen)
-                            trobat = True
-                        
+                        centroids[i] = chosen
+                        used.append(chosen)
+                        trobat = True
+
             self.centroids = centroids
-            
-            
+
+
         else:
             self.centroids = np.random.rand(self.K, self.X.shape[1])
             self.old_centroids = np.random.rand(self.K, self.X.shape[1])
-
 
     def get_labels(self):
         """        Calculates the closest centroid of all points in X
@@ -138,7 +134,7 @@ class KMeans:
         #######################################################
         z = len(self.X)
         self.labels = np.zeros((z))
-        
+
         for current_n in range(z):
             minim_value = 999
             for current_k in range(self.K):
@@ -146,10 +142,10 @@ class KMeans:
                 if new_distance < minim_value:
                     self.labels[current_n] = current_k
                     minim_value = new_distance
-                    
+
     pass
 
-    def get_centroids(self): 
+    def get_centroids(self):
         """
         Calculates coordinates of centroids based on the coordinates of all the points assigned to the centroid
         """
@@ -157,30 +153,31 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        
+
         self.old_centroids = copy.deepcopy(self.centroids)
-        
+
         for current_centroid in range(len(self.centroids)):
             current_list = []
             for current_point in range(len(self.labels)):
                 if self.labels[current_point] == current_centroid:
                     current_list.append(self.X[current_point])
-            new_cent = np.mean(current_list, axis = 0)
+            new_cent = np.mean(current_list, axis=0)
             self.centroids[current_centroid] = new_cent
-            
-    
+
     pass
 
 
-def converges(self):
-    """
+    def converges(self):
+        if np.allclose(self.old_centroids,self.centroids):
+            return True
+        """
     Checks if there is a difference between current and old centroids
     """
     #######################################################
     ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
     ##  AND CHANGE FOR YOUR OWN CODE
     #######################################################
-    return True
+        return False
 
 
 def fit(self):
@@ -219,16 +216,17 @@ def find_bestK(self, max_K):
 
 
 def euclidian_distance_3d(A, B):
-    
     x = np.square(B[0] - A[0])
     y = np.square(B[1] - A[1])
     z = np.square(B[2] - A[2])
-    
+
     distance = np.sqrt(x + y + z)
-    
+
     return distance
-    
+
+
 pass
+
 
 def distance(X, C):
     """
@@ -246,23 +244,26 @@ def distance(X, C):
     ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
     ##  AND CHANGE FOR YOUR OWN CODE
     #########################################################
-    
+
     # K = Num de centroides, N = columnes*files
-    #NO ACABAT, NO FUNCIONA
-    
+    # NO ACABAT, NO FUNCIONA
+
     X_shape = np.shape(X)
     C_shape = np.shape(C)
-    
+
     N = X_shape[0]
     K = C_shape[0]
-    
+
     retorn = np.zeros((N, K))
     for current_n in range(N):
         for current_k in range(K):
             retorn[current_n, current_k] = euclidian_distance_3d(X[current_n], C[current_k])
 
     return retorn
+
+
 pass
+
 
 def get_colors(centroids):
     """
