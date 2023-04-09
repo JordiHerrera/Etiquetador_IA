@@ -180,16 +180,24 @@ class KMeans:
         return False
 
 
-def fit(self):
-    """
-    Runs K-Means algorithm until it converges or until the number
-    of iterations is smaller than the maximum number of iterations.
-    """
-    #######################################################
-    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-    ##  AND CHANGE FOR YOUR OWN CODE
-    #######################################################
-    pass
+    def fit(self):
+        self._init_centroids()
+        self.get_labels()
+        self.get_centroids()
+
+        while self.converges() == False:
+            self.get_labels()
+            self.get_centroids()
+            self.num_iter += 1
+        """
+        Runs K-Means algorithm until it converges or until the number
+        of iterations is smaller than the maximum number of iterations.
+        """
+        #######################################################
+        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
+        ##  AND CHANGE FOR YOUR OWN CODE
+        #######################################################
+        pass
 
 
 def withinClassDistance(self):
