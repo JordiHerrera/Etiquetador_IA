@@ -198,29 +198,43 @@ class KMeans:
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
         pass
+    
+    def find_bestK(self, max_K):
+        
+
+        pass
 
 
-def withinClassDistance(self):
-    """
-     returns the within class distance of the current clustering
-    """
+    def withinClassDistance(self):
+        """
+         returns the within class distance of the current clustering
+        """
+    
+        #######################################################
+        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
+        ##  AND CHANGE FOR YOUR OWN CODE
+        #######################################################
+        
+        self.fit()
+        sumat = 0
+        z = np.shape(self.X)
+        F = z[0]
+        C = z[1]
+        N = F * C
+        print('CLUSTER AAAA')
+        for current in range(self.K):
+            cluster = np.where(self.labels == current)
+            for current_clus in cluster[0]:
+                sumat += np.square(euclidian_distance_3d(self.X[current_clus],self.centroids[current]))
+                
+            print(sumat)
+        total = (1/N) * sumat
+        print(total)
+        self.WCD= total
+    
+        pass       
 
-    #######################################################
-    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-    ##  AND CHANGE FOR YOUR OWN CODE
-    #######################################################
-    return np.random.rand()
 
-
-def find_bestK(self, max_K):
-    """
-     sets the best k anlysing the results up to 'max_K' clusters
-    """
-    #######################################################
-    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-    ##  AND CHANGE FOR YOUR OWN CODE
-    #######################################################
-    pass
 
 
 def euclidian_distance_3d(A, B):
