@@ -200,11 +200,20 @@ class KMeans:
         pass
     
     def find_bestK(self, max_K):
+        it = 3
+        while it < max_K :
+            self.K = it
+            self.withinClassDistance()
+            j = self.WCD
+            self.K = it -1
+            self.withinClassDistance()
+            i = self.WCD
+            DEC = 100*(j/i)
+            if 100-DEC < 20:
+                return self.K 
+            it = it +1
+        return max_K
         
-
-        pass
-
-
     def withinClassDistance(self):
         """
          returns the within class distance of the current clustering
@@ -221,15 +230,11 @@ class KMeans:
         F = z[0]
         C = z[1]
         N = F * C
-        print('CLUSTER AAAA')
         for current in range(self.K):
             cluster = np.where(self.labels == current)
             for current_clus in cluster[0]:
-                sumat += np.square(euclidian_distance_3d(self.X[current_clus],self.centroids[current]))
-                
-            print(sumat)
+                sumat += np.square(euclidian_distance_3d(self.X[current_clus],self.centroids[current]))              
         total = (1/N) * sumat
-        print(total)
         self.WCD= total
     
         pass       
@@ -256,7 +261,6 @@ def distance(X, C):
     Args:
         X (numpy array): PxD 1st set of data points (usually data points)
         C (numpy array): KxD 2nd set of data points (usually cluster centroids points)
-
     Returns:
         dist: PxK numpy array position ij is the distance between the
         i-th point of the first set an the j-th point of the second set
@@ -292,13 +296,25 @@ def get_colors(centroids):
     for each row of the numpy matrix 'centroids' returns the color label following the 11 basic colors as a LIST
     Args:
         centroids (numpy array): KxD 1st set of data points (usually centroid points)
-
     Returns:
         labels: list of K labels corresponding to one of the 11 basic colors
     """
-
+    maxx =0
+    it=0
+    a = []
+    z = utils.get_color_prob(centroids)
+    for i in z:
+        for j in i:
+            if maxx<j:
+                maxx = j
+                index = it
+            it = it+1
+        a.append(utils.colors[index])
+        it = 0
+        index = 0
+        maxx =0
     #########################################################
     ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
     ##  AND CHANGE FOR YOUR OWN CODE
     #########################################################
-    return list(utils.colors)
+    return a
