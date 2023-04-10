@@ -132,16 +132,10 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        z = len(self.X)
-        self.labels = np.zeros((z))
-
-        for current_n in range(z):
-            minim_value = 999
-            for current_k in range(self.K):
-                new_distance = euclidian_distance_3d(self.X[current_n], self.centroids[current_k])
-                if new_distance < minim_value:
-                    self.labels[current_n] = current_k
-                    minim_value = new_distance
+        
+        matriu_distancies = distance(self.X, self.centroids)
+        labels = np.argmin(matriu_distancies, axis = 1)
+        self.labels = labels
 
     pass
 
@@ -157,11 +151,9 @@ class KMeans:
         self.old_centroids = copy.deepcopy(self.centroids)
 
         for current_centroid in range(len(self.centroids)):
-            current_list = []
-            for current_point in range(len(self.labels)):
-                if self.labels[current_point] == current_centroid:
-                    current_list.append(self.X[current_point])
-            new_cent = np.mean(current_list, axis=0)
+            in_current = np.where(self.labels == current_centroid)
+            a = (self.X[in_current[0]])
+            new_cent = np.mean(a, axis = 0)
             self.centroids[current_centroid] = new_cent
 
     pass
@@ -170,6 +162,7 @@ class KMeans:
     def converges(self):
         if np.allclose(self.old_centroids,self.centroids):
             return True
+        return False
         """
     Checks if there is a difference between current and old centroids
     """
@@ -177,7 +170,6 @@ class KMeans:
     ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
     ##  AND CHANGE FOR YOUR OWN CODE
     #######################################################
-        return False
 
 
     def fit(self):
@@ -185,7 +177,7 @@ class KMeans:
         self.get_labels()
         self.get_centroids()
 
-        while self.converges() == False:
+        while self.converges() == False and self.num_iter < self.options['max_iter']:
             self.get_labels()
             self.get_centroids()
             self.num_iter += 1
@@ -200,6 +192,7 @@ class KMeans:
         pass
     
     def find_bestK(self, max_K):
+        
         it = 3
         while it < max_K :
             self.K = it
@@ -237,8 +230,7 @@ class KMeans:
         total = (1/N) * sumat
         self.WCD= total
     
-        pass       
-
+        pass         
 
 
 
@@ -273,19 +265,27 @@ def distance(X, C):
 
     # K = Num de centroides, N = columnes*files
     # NO ACABAT, NO FUNCIONA
-
+    """
     X_shape = np.shape(X)
     C_shape = np.shape(C)
 
     N = X_shape[0]
     K = C_shape[0]
 
+    
     retorn = np.zeros((N, K))
     for current_n in range(N):
         for current_k in range(K):
             retorn[current_n, current_k] = euclidian_distance_3d(X[current_n], C[current_k])
-
+    
     return retorn
+    """
+    a = np.square(X[:, 0, np.newaxis] - C[:, 0])
+    b = np.square(X[:, 1, np.newaxis] - C[:, 1])
+    c = np.square(X[:, 2, np.newaxis] - C[:, 2])
+    return np.sqrt(a + b + c)
+    
+    
 
 
 pass
