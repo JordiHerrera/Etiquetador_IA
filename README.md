@@ -2,3 +2,4 @@
 # Hem vull tallar les venes 
 # "Em" va sense H >:(
 ### Oh sentu
+[image](https://media.tenor.com/nebfri7UbCEAAAAM/throwing-stone.gif)
