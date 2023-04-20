@@ -1,5 +1,5 @@
-__authors__ = 'TO_BE_FILLED'
-__group__ = 'TO_BE_FILLED'
+__authors__ = ['1638117', '1639392', '1550960']
+__group__ = 'DM.12'
 
 import numpy as np
 import math
@@ -25,7 +25,10 @@ class KNN:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        self.train_data = np.random.randint(8, size=[10, 14400])
+        self.train_data = np.array(train_data,float)
+        N = np.shape(train_data)[0]
+        PxI = np.shape(train_data)[1] * np.shape(train_data)[2]
+        self.train_data = np.reshape(self.train_data,(N,PxI))
 
     def get_k_neighbours(self, test_data, k):
         """
@@ -40,6 +43,19 @@ class KNN:
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
         self.neighbors = np.random.randint(k, size=[test_data.shape[0], k])
+        self.test_data = np.array(test_data, float)
+        N = np.shape(test_data)[0]
+        PxI = np.shape(test_data)[1] * np.shape(test_data)[2]
+        self.test_data = np.reshape(self.test_data, (N, PxI))
+        distances = cdist(self.test_data,self.train_data)
+        print(distances)
+        distnces_neighbors = []
+        for dist in distances:
+            aux = np.sort(dist)
+            distnces_neighbors.append(aux[:k])
+        print('=======================================================================================0')
+        print(distnces_neighbors[0][0])
+        #falta el assignar les etiquetes a cada veí
 
     def get_class(self):
         """
