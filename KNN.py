@@ -70,7 +70,10 @@ class KNN:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
+        a =[]
+        for i in self.neighbors:
+            a.append(max(i, key=i.count))
+        return a
 
     def predict(self, test_data, k):
         """
