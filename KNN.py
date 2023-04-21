@@ -49,7 +49,6 @@ class KNN:
         self.test_data = np.reshape(self.test_data, (N, PxI))
         distances = cdist(self.test_data,self.train_data)
         min_index = np.argsort(distances)
-        print(min_index)
         for index in min_index:
             labels = []
             for i in range(k):
