@@ -42,20 +42,22 @@ class KNN:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        self.neighbors = np.random.randint(k, size=[test_data.shape[0], k])
+        self.neighbors = []
         self.test_data = np.array(test_data, float)
         N = np.shape(test_data)[0]
         PxI = np.shape(test_data)[1] * np.shape(test_data)[2]
         self.test_data = np.reshape(self.test_data, (N, PxI))
         distances = cdist(self.test_data,self.train_data)
-        print(distances)
-        distnces_neighbors = []
-        for dist in distances:
-            aux = np.sort(dist)
-            distnces_neighbors.append(aux[:k])
-        print('=======================================================================================0')
-        print(distnces_neighbors[0][0])
-        #falta el assignar les etiquetes a cada veí
+        min_index = np.argsort(distances)
+        print(min_index)
+        for index in min_index:
+            labels = []
+            for i in range(k):
+                labels.append(self.labels[index[i]])
+            self.neighbors.append(labels)
+
+
+       #Podria treure's un for si conseguim fer que el min_index només tingui els 3 valors que volem examinar
 
     def get_class(self):
         """
