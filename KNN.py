@@ -69,12 +69,25 @@ class KNN:
         #######################################################
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
+        ######################################################
         a =[]
+        b =[]
         for i in self.neighbors:
-            a.append(max(i, key=i.count))
-        return a
-
+            a.append(max(i, key=i.count))                       #First array completat
+            
+        diccionario_frecuencias = {}
+        for i in range(len(self.neighbors)):
+            for j in self.neighbors[i]:
+                if j in diccionario_frecuencias:
+                    diccionario_frecuencias[j] += 1
+                else:
+                    diccionario_frecuencias[j] = 1              #Obtenim el total de cada una de les paraules
+                    
+        m = sum(diccionario_frecuencias.values())               #Suma de totes les paraules
+        for i in a:
+            b.append((diccionario_frecuencias.get(i)/m)*100)    #Total de cada Classe representant entre totes
+        return a,b  
+        
     def predict(self, test_data, k):
         """
         predicts the class at which each element in test_data belongs to
