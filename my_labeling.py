@@ -65,16 +65,12 @@ def retrieval_by_color(array_imgs, comp_labels, mostres, colors, acc = 0):
     final_ret = 0
     
     ret = []
-    print('Entra k-means')
     for i in range(mostres):
         km = KMeans(array_imgs[i], current_k) 
         km.fit()  
         color = get_colors(km.centroids)
         if all(elem in color for elem in comp_labels[i]):
-            print(comp_labels[i])
             imatges.append([i, array_imgs[i], color])
-    
-    print('Acaba k-means')
     
     if acc == 0:
         ret_dict = {}
@@ -91,16 +87,15 @@ def retrieval_by_color(array_imgs, comp_labels, mostres, colors, acc = 0):
         for current_img in imatges:
             if all(elem in color for elem in current_img[2]):
                 ret_list.append(current_img)
-                print('Entra')
         final_ret = ret_list
         
-            
-    return final_ret
     print('Temps execucio:',time.time() - start_time)
+    return final_ret
+    
 
 if __name__ == '__main__':
 
-    print('Iniciant lectura dataset...')    
+    print('Iniciant lectura del dataset...')    
 
     # Load all the images and GT
     train_imgs, train_class_labels, train_color_labels, test_imgs, test_class_labels, \
@@ -121,17 +116,32 @@ if __name__ == '__main__':
     cropped_images = crop_images(imgs, upper, lower)
 
     # You can start coding your functions here
-    print('Fins aqui no falla')
-    
-    get_color_accuracy(test_imgs, test_color_labels, 50) 
-    
-    desired_colors = ['White', 'Black']
-    acc = 1
-    
-    #ret = retrieval_by_color(test_imgs, test_color_labels, 10, desired_colors, acc)
-    #print(ret)
-    
-    print(np.shape(test_imgs)[1], np.shape(test_imgs)[2], np.shape(test_imgs)[3])
-    
-    
-    
+
+    print(' ')
+    alg = input('Quin algorisme vols probar? (0 = K-Means, 1 = KNN) ')
+    if alg == '0':
+        kmean = input('Quina funcio vols provar? (0 = get_color_accuracy, 1 = retrieval_by_color) ')
+        if kmean == '0':
+            m_in = input('Mida de la mostra: ')
+            mostra = int(m_in)
+            print(' ')
+            get_color_accuracy(test_imgs, test_color_labels, mostra)
+        elif kmean == '1':
+            m_in = input('Mida de la mostra: ')
+            mostra = int(m_in)
+            color_in = input('Indica els colors de les imatges que vols obtenir: ')
+            desired_colors = color_in.split()
+            acc_in = input('Vols que qualsevol dels color estigui a la imatge o tots? (0 = Qualsevol, 1 = Tots) ')
+            acc = int(acc_in)
+            print(' ')
+            retrieval = retrieval_by_color(test_imgs, test_color_labels, mostra, desired_colors, acc)
+            print(' ')
+            if acc == 0:
+                for current_k, current_v in retrieval.items():
+                    print(current_k,':')
+                    for im in current_v:
+                        print(im[0],',', im[2])
+                    print(' ')
+            elif acc == 1:
+                for current in retrieval:
+                    print(current[0],',', current[2])
