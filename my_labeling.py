@@ -23,6 +23,8 @@ def get_color_accuracy(array_imgs, comp_labels, mostres):
     max_k = 10
     current_k = 3
     
+    
+    
     for i in range(mostres):
         if i % 10 == 0:
             print('===========================> Marca de les', i, 'iteracions')
@@ -30,7 +32,6 @@ def get_color_accuracy(array_imgs, comp_labels, mostres):
         km.find_bestK(max_k)
         print('Millor K trobada:', km.K)
         km.fit()  
-        #visualize_k_means(km, [80, 60, 3])
         color = get_colors(km.centroids)
         if all(elem in color for elem in comp_labels[i]):
             print('Coincideix')
@@ -39,10 +40,9 @@ def get_color_accuracy(array_imgs, comp_labels, mostres):
             print('Falla a la iteració', i)   
             print('Es:', list(set(color)))
             print('Hauria de ser:', test_color_labels[i])
-            #visualize_k_means(km, [80, 60, 3])
+            mides = np.shape(array_imgs[i])
+            #visualize_k_means(km, [mides[0], mides[1], mides[2]])          <--DESCOMENTAR PER GENERAR GRAFIC DELS ERRORS <!>
             count = count + 1
-        #print('Es:', list(set(color)))
-        #print('Hauria de ser:', test_color_labels[i])
         print(' ')
 
     print('Tasa encert =', 1-(count/mostres))
@@ -123,13 +123,15 @@ if __name__ == '__main__':
     # You can start coding your functions here
     print('Fins aqui no falla')
     
-    #get_color_accuracy(test_imgs, test_color_labels, 50) 
+    get_color_accuracy(test_imgs, test_color_labels, 50) 
     
     desired_colors = ['White', 'Black']
     acc = 1
     
-    ret = retrieval_by_color(test_imgs, test_color_labels, 10, desired_colors, acc)
-    print(ret)
+    #ret = retrieval_by_color(test_imgs, test_color_labels, 10, desired_colors, acc)
+    #print(ret)
+    
+    print(np.shape(test_imgs)[1], np.shape(test_imgs)[2], np.shape(test_imgs)[3])
     
     
     
