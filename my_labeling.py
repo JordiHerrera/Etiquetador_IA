@@ -145,3 +145,5 @@ if __name__ == '__main__':
             elif acc == 1:
                 for current in retrieval:
                     print(current[0],',', current[2])
+    elif alg == '1':
+        print('Coses KNN')
