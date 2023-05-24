@@ -121,8 +121,34 @@ class KMeans:
 
 
         else:
-            self.centroids = np.random.rand(self.K, self.X.shape[1])
-            self.old_centroids = np.random.rand(self.K, self.X.shape[1])
+            """
+              We will calculate the distances between all the possible centroids and choose the k first more distant
+              between eachother
+            """
+            centroids_final = np.zeros((self.K, self.X.shape[1]))
+            rand = self.X[np.random.randint(self.X.shape[0])]
+            centroids = []
+            centroids.append(rand)
+            centroids_final[0] = rand
+            i = 1
+            
+            while len(centroids) < self.K:
+                pixels_distance = np.zeros(self.X.shape[0])
+                
+                for counter, point in enumerate(self.X):
+                    pixels_distance[counter] = np.linalg.norm(point - centroids,axis = 1).min()
+                    
+                max_distance_index = np.argmax(pixels_distance)                
+                centroids.append(self.X[max_distance_index])
+                centroids_final[i] = self.X[max_distance_index]
+                i = i + 1
+                
+            self.centroids = centroids_final
+            
+            if hasattr(self, 'centroids'):
+                self.old_centroids = self.centroids
+            else:
+                self.old_centroids = [0]
 
     def get_labels(self):
         """        Calculates the closest centroid of all points in X
@@ -232,7 +258,25 @@ class KMeans:
     
         pass         
 
-
+    def interClassDistance(self):
+            self.fit()
+            sumat = 0
+            M = self.K
+            for i in range(self.K):
+                for j in range(i, self.K):                    
+                    if i != j:
+                        sumat = sumat + np.square(euclidian_distance_3d(self.centroids[i], self.centroids[j]))                     
+            total = (1/M) * (sumat)
+            self.ICD= total
+        
+            pass 
+        
+    def FisherDiscriminant(self):
+            self.withinClassDistance()
+            self.interClassDistance()
+    
+            k = self.WCD/self.ICD
+            self.Fisher = k
 
 def euclidian_distance_3d(A, B):
     x = np.square(B[0] - A[0])
