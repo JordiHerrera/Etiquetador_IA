@@ -12,9 +12,6 @@ from KNN import *
 import utils as ut
 import time
 
-def test(a):
-    b = 2 + 2
-    return b
 
 def get_color_accuracy(array_imgs, comp_labels, mostres):
     start_time = time.time()
@@ -41,7 +38,7 @@ def get_color_accuracy(array_imgs, comp_labels, mostres):
             print('Es:', list(set(color)))
             print('Hauria de ser:', test_color_labels[i])
             mides = np.shape(array_imgs[i])
-            #visualize_k_means(km, [mides[0], mides[1], mides[2]])          <--DESCOMENTAR PER GENERAR GRAFIC DELS ERRORS <!>
+            visualize_k_means(km, [mides[0], mides[1], mides[2]])          #<--DESCOMENTAR PER GENERAR GRAFIC DELS ERRORS <!>
             count = count + 1
         print(' ')
 
